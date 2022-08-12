@@ -1,0 +1,21 @@
+.side-header .header-brand-img.light-logo1 {
+    width: 80px;
+}
+
+.header-brand-img{
+    width: 80px !important;	
+}
+.btn-block+.btn-block {
+    margin-top:0 !important;
+}
+.mr-20{
+	margin-right:10px !important;
+}
+.pb-30{
+	padding-bottom: 30px;
+}
+.d-flex-custom{
+	display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

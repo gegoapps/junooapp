@@ -1,0 +1,100 @@
+{% extends 'main.html' %}
+{% block content %}
+
+            <!--app-content open-->
+            <div class="main-content app-content mt-0">
+                <div class="side-app">
+
+                    <!-- CONTAINER -->
+                    <div class="main-container container-fluid">
+
+                        <!-- PAGE-HEADER -->
+                        <div class="page-header">
+
+							<div>
+							<h1 class="page-title">{{ maincat.title }}</h1>
+							<div class="mt-4">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{% url 'junoocategorys'  %}">Junoo Categories</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page"> Sub Categories</li>
+                                </ol>
+                            </div>
+                            </div>
+							<div class="float-right">
+
+                                <a class="btn btn-primary btn-block" href="{% url 'junoosubcategory_create' mainid %}">
+								<i class="fe fe-plus me-1"></i> Add New</a>
+
+                        </div>
+
+                        </div>
+
+                        <!-- PAGE-HEADER END -->
+
+                        <!-- Row -->
+                        <div class="row row-sm">
+
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <div class="row row-sm">
+
+
+
+                                    {% if res  %}
+                                    {% for jc in res %}
+									<div class="col-xl-3 col-md-6 col-sm-6">
+                                        <div class="card pos-relative">
+                                            <a href="{% url 'subjects' jc.id %}" class="open-file"></a>
+                                            <div class="card-body px-4 pt-4 pb-2">
+                                                <div class="d-flex">
+                                                    <span class="bg-danger-transparent border border-danger brround">
+                                                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                                                            <path fill="#e82646" d="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z" />
+                                                        </svg>
+                                                    </span>
+                                                    <div class="ms-auto mt-1 file-dropdown">
+                                                        <a href="{% url 'subjects' jc.id %}" class="text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical fs-18"></i></a>
+                                                        <div class="dropdown-menu dropdown-menu-start">
+                                                            <a class="dropdown-item" onclick="msg('No Permission')"><i class="fe fe-edit me-2"></i> Edit</a>
+
+                                                            <a class="dropdown-item" onclick="msg('No Permission')"><i class="fe fe-trash me-2"></i> Delete</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer border-top-0">
+                                                <div class="d-flex">
+                                                    <div>
+                                                        <h5 class="text-danger">{{ jc.title }}</h5>
+
+                                                    </div>
+                                                    <div class="ms-auto mt-1">
+
+                                                            {% if jc.status == True %}
+                                                           <p class="text-muted fs-13 mb-0">Active Category</p>
+                                                            {% else %}
+                                                         <p class="text-muted fs-13 mb-0">Not Active Category</p>
+                                                            {% endif %}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+
+
+                                </div>
+
+
+                            </div>
+                            <!-- End Row -->
+                        </div>
+                        <!-- End Row -->
+                    </div>
+                    <!-- CONTAINER CLOSED -->
+
+                </div>
+            </div>
+            <!--app-content closed-->
+	{% endblock %}

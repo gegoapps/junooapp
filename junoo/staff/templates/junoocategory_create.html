@@ -1,0 +1,70 @@
+{% extends 'main.html' %}
+{% block content %}
+
+      <!--app-content open-->
+            <div class="main-content app-content mt-0">
+                <div class="side-app">
+
+                    <!-- CONTAINER -->
+                    <div class="main-container container-fluid">
+
+                        <!-- PAGE-HEADER -->
+                        <div class="page-header">
+                            {% if catdata  %}
+                            <h1 class="page-title">Edit Data</h1>
+                            {% else %}
+                            <h1 class="page-title">Add New Junoo Category</h1>
+                            {% endif %}
+                            <div>
+
+                                <a class="btn btn-primary btn-block" href="{% url 'junoocategorys' %}">
+								<i class="fe fe-eye me-1"></i> View All</a>
+
+                            </div>
+                        </div>
+                        <!-- PAGE-HEADER END -->
+<form method="post" >
+    {% csrf_token %}
+                        <!-- Row -->
+                        <div class="row row-sm">
+
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+
+                                 <div class="card">
+
+                            {% for message in messages %}
+                                                <p style="color:red">{{ message }}</p>
+                                                {% endfor %}
+                                    <div class="card-body">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Category Name</label>
+                                                    <input type="text" value="{% if catdata %}{{ catdata.title }}{% endif %}" required class="form-control" id="name1" name="title" placeholder="Category Name">
+                                                </div>
+                                            </div>
+
+
+
+
+                                    </div>
+									 <div class="form-footer mt-2">
+                                            <button type="submit" class="btn btn-primary">{% if catdata %} Update {% else %}Submit {% endif %}</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!-- End Row -->
+                        </div>
+                        </form>
+                        <!-- End Row -->
+                    </div>
+                    <!-- CONTAINER CLOSED -->
+
+                </div>
+            </div>
+            <!--app-content closed-->
+
+	{% endblock %}

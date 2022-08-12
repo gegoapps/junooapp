@@ -1,0 +1,168 @@
+{% extends 'main.html' %}
+{% block content %}
+            <!--app-content open-->
+            <div class="main-content app-content mt-0">
+                <div class="side-app">
+
+                    <!-- CONTAINER -->
+                    <div class="main-container container-fluid">
+
+                        <!-- PAGE-HEADER -->
+                        <div class="page-header">
+
+							<div>
+							<h1 class="page-title">Questions</h1>
+							<div class="mt-4">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{% url 'junoocategorys'  %}">Junoo Categories</a></li>
+                                  <li class="breadcrumb-item"><a href=""> SubCategories</a></li>
+                                     <li class="breadcrumb-item"><a href=""> Subjects</a></li>
+                                    <li class="breadcrumb-item"><a href=""> Chapters</a></li>
+                                      <li class="breadcrumb-item active" aria-current="page">Questions</li>
+                                </ol>
+                            </div>
+                            </div>
+							<div class="float-right">
+
+                                <a class="btn btn-primary btn-block" href="{% url 'create_questions' chapterid %}">
+								<i class="fe fe-plus me-1"></i>Add New Questions</a>
+
+                        </div>
+
+                        </div>
+
+                        <!-- PAGE-HEADER END -->
+
+                        <!-- Row -->
+                        <div class="row row-sm">
+
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+
+                                <div class="card">
+                                    <div class="card-header d-flex-custom">
+                                        <h3 class="card-title">List Of Questions available</h3>
+										<div class="col-md-3 mb-0">
+
+                                                    <input type="text" class="form-control" id="name2" placeholder="Search">
+
+                                            </div>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="table-responsive">
+                                            <table class="table border text-nowrap text-md-nowrap table-hover mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>SL No</th>
+                                                        <th>Question</th>
+                                                        <th>Options</th>
+
+                                                        <th>Answer</th>
+                                                         <th>Status</th>
+                                                         <th>Verification</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% if questionslist %}
+                                                {% for ques in questionslist %}
+                                                    <tr>
+                                                        <td>{{ forloop.counter }}</td>
+                                                        <td>{{ ques.title }}</td>
+                                                        <td><a href="" class="btn btn-info btn-sm" type="submit"  data-bs-target="#select{{ ques.id }}modal" data-bs-toggle="modal"   ><i class="fe fe-eye"></i> View All</a>
+
+
+                                                        <div class="modal fade" id="select{{ ques.id }}modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Options</h6>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <ul class="list-group">
+                                                <li  class="listorder">{{ ques.option1 }}</li>
+                                                <li class="listorder">{{ ques.option2 }}</li>
+                                                <li class="listorder">{{ ques.option3 }}</li>
+                                                <li class="listorder">{{ ques.option4 }}</li>
+
+                                            </ul>
+                </div>
+                <div class="modal-footer">
+
+                    <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                        </td>
+
+                                                        <td>{% if ques.answer == '1' %}
+                                                            {{ ques.option1 }}
+                                                            {% elif ques.answer == '2' %}
+                                                             {{ ques.option2 }}
+                                                            {% elif ques.answer == '3' %}
+                                                             {{ ques.option3 }}
+                                                              {% elif ques.answer == '4' %}
+                                                             {{ ques.option4 }}
+                                                            {% endif %}</td>
+                                                        <td>{% if ques.status == True %} Active {% else %} Not Active {% endif %}</td>
+                                                         <td>{% if ques.verification == True %} Verified {% else %} Need To Verify {% endif %}</td>
+														<td>
+
+														<a href="{% url 'Question_Edit' ques.chapter_id ques.id %}" class="btn btn-success btn-sm" type="submit"><i class="fe fe-edit"></i></a>
+
+														 <a href="" class="btn btn-danger btn-sm" type="submit"  data-bs-target="#delete" data-bs-toggle="modal" ><i class="fe fe-trash"></i></a>
+														</td>
+                                                    </tr>
+                                                {% endfor %}
+{% endif %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!-- End Row -->
+                        </div>
+                        <!-- End Row -->
+                    </div>
+                    <!-- CONTAINER CLOSED -->
+
+                </div>
+            </div>
+            <!--app-content closed-->
+		<!-- Select2 modal -->
+
+    <!-- End Select2 modal -->
+
+
+	 <!-- Select2 modal -->
+    <div class="modal fade" id="delete">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Delete</h6>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Are You Sure Do You Want To Delete ?</h6>
+
+
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn ripple btn-success" >Yes</a>
+                    <a href="#" class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+   {% endblock %}

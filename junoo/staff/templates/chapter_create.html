@@ -1,0 +1,68 @@
+{% extends 'main.html' %}
+{% block content %}
+
+      <!--app-content open-->
+            <div class="main-content app-content mt-0">
+                <div class="side-app">
+
+                    <!-- CONTAINER -->
+                    <div class="main-container container-fluid">
+
+                        <!-- PAGE-HEADER -->
+                        <div class="page-header">
+                            <h1 class="page-title">Add New in {{ subcat.title }}</h1>
+                            <div>
+
+                                <a class="btn btn-primary btn-block" href="{% url 'chapters' subcat.id %}">
+								<i class="fe fe-eye me-1"></i> View All</a>
+
+                            </div>
+                        </div>
+                        <!-- PAGE-HEADER END -->
+<form method="post" >
+    {% csrf_token %}
+                        <!-- Row -->
+                        <div class="row row-sm">
+
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+
+                                 <div class="card">
+
+                            {% for message in messages %}
+                                                <p style="color:red">{{ message }}</p>
+                                                {% endfor %}
+                                    <div class="card-body">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Subject</label>
+
+                                                    <input type="hidden" name="subid" value="{{ subcat.id }}">
+                                                    <input type="text" required class="form-control" id="name1" name="title" placeholder="Subject">
+                                                </div>
+                                            </div>
+
+
+
+
+                                    </div>
+									 <div class="form-footer mt-2">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!-- End Row -->
+                        </div>
+                        </form>
+                        <!-- End Row -->
+                    </div>
+                    <!-- CONTAINER CLOSED -->
+
+                </div>
+            </div>
+            <!--app-content closed-->
+
+	{% endblock %}
