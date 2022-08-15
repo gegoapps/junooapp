@@ -3,6 +3,7 @@ from django.http import HttpResponse,JsonResponse
 from . models import *
 from masters import *
 from questions import *
+
 from django.contrib.auth import authenticate, login as auth_login,logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -10,6 +11,9 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from questions.models import subject,chapter,questions
 
+from appapi.models import Customer
+
+from masters.models import doyouknow
 
 
 def login(request):
@@ -40,9 +44,10 @@ def login(request):
         return  render(request,'login.html',{'dat':'dat'})
 
 def dashboard(request):
-
-    return  render(request,"dashboard.html")
-
+    if  request.user.is_authenticated:
+        return  render(request,"dashboard.html")
+    else:
+        return redirect("login")
 def junoocategorys(request):
     res = junoocategory.objects.all()
     return  render(request,"junoocategory.html",{'res':res})
@@ -166,12 +171,14 @@ def  create_questions(request,pk):
         option3 = request.POST.get('option3')
         option4 = request.POST.get('option4')
         answer = request.POST.get('answer')
+        cf_date = request.POST.get('cf_date')
+        current_affair = request.POST.get('current_affair')
         chapterid = request.POST.get('chapterid')
         chapterdata = chapter.objects.get(id=chapterid)
         junoocategory_id=chapterdata.subject.junoocategory_id
         junoosubcategory_id=chapterdata.subject.junoosubcategory_id
         cdate=datetime.datetime.now()
-        res = questions(junoocategory_id=junoocategory_id, junoosubcategory_id=junoosubcategory_id, subject=chapterdata.subject,chapter_id=chapterid,created_date=cdate,status=False,verification=False,title=title,option1=option1,option2=option2,option3=option3,option4=option4,answer=answer)
+        res = questions(current_affairs=current_affair,current_affairs_date=cf_date,junoocategory_id=junoocategory_id, junoosubcategory_id=junoosubcategory_id, subject=chapterdata.subject,chapter_id=chapterid,created_date=cdate,status=False,verification=False,title=title,option1=option1,option2=option2,option3=option3,option4=option4,answer=answer)
         res.save()
         messages.info(request, "Success")
         return render(request, 'create_question.html', {'chapterdata': chapterdata,})
@@ -189,6 +196,8 @@ def Question_Edit(request,chapterid,qid):
         questiondata.option3 = request.POST.get('option3')
         questiondata.option4 = request.POST.get('option4')
         questiondata.answer = request.POST.get('answer')
+        questiondata.current_affairs_date = request.POST.get('cf_date')
+        questiondata.current_affairs = request.POST.get('current_affair')
         questiondata.chapter_id = request.POST.get('chapterid')
         chapterdata = chapter.objects.get(id=chapterid)
         questiondata.subject=chapterdata.subject
@@ -206,3 +215,26 @@ def Question_Edit(request,chapterid,qid):
     else:
         return render(request, 'create_question.html', {'chapterdata': chapterdata,'questiondata':questiondata})
 
+def UserList(request):
+    res = Customer.objects.all()
+    return  render(request,"UserList.html",{'res':res})
+
+def doyouKnowList(request):
+    res = doyouknow.objects.all()
+    return  render(request,"doyouKnow.html",{'res':res})
+
+def logout_view(request):
+    logout(request)
+    return  redirect("login")
+
+def quizList(request):
+    return  HttpResponse("Coming Soon")
+
+def mocktests(request):
+    return  HttpResponse("Coming Soon")
+
+def exams(request):
+    return  HttpResponse("Coming Soon")
+
+def practices(request):
+    return  HttpResponse("Coming Soon")

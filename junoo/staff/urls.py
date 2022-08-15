@@ -18,6 +18,12 @@ urlpatterns = [
     path('create_questions/<str:pk>', views.create_questions, name="create_questions"),
     path('junoocategory_edit/<str:pk>', views.junoocategory_edit, name="junoocategory_edit"),
     path('Question_Edit/<str:chapterid>/<str:qid>', views.Question_Edit, name="Question_Edit"),
-
+    path('UserList', views.UserList, name="UserList"),
+    path('doyouKnowList', views.doyouKnowList, name="doyouKnowList"),
+    path('logout_view', views.logout_view, name="logout_view"),
+    path('quizList', views.quizList, name="quizList"),
+    path('mocktests', views.mocktests, name="mocktests"),
+    path('exams', views.exams, name="exams"),
+    path('practices', views.practices, name="practices"),
 
 ]

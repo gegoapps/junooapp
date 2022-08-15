@@ -94,7 +94,7 @@
                                                 </div>
                                                 <div class="dropdown-divider m-0"></div>
 
-                                                <a class="dropdown-item" href="login.php">
+                                                <a class="dropdown-item" href="{% url 'logout_view' %}">
                                                     <i class="dropdown-icon fe fe-alert-circle"></i> Sign out
                                                 </a>
                                             </div>
@@ -143,8 +143,38 @@
                                         class="side-menu__icon fe fe-bookmark"></i><span
                                         class="side-menu__label">All Questions</span></a>
                             </li>
+                            <li class="slide">
+                                <a class="side-menu__item has-link" data-bs-toggle="slide" href="{% url 'junoocategorys' %}"><i
+                                        class="side-menu__icon fe fe-bookmark"></i><span
+                                        class="side-menu__label">Current Affairs</span></a>
+                            </li>
+                             <li class="slide">
+                                <a class="side-menu__item has-link" data-bs-toggle="slide" href="{% url 'quizList' %}"><i
+                                        class="side-menu__icon fe fe-bookmark"></i><span
+                                        class="side-menu__label">Quiz</span></a>
+                            </li>
+                             <li class="slide">
+                                <a class="side-menu__item has-link" data-bs-toggle="slide" href="{% url 'mocktests' %}"><i
+                                        class="side-menu__icon fe fe-bookmark"></i><span
+                                        class="side-menu__label">Mock Tests</span></a>
+                            </li>
+                             <li class="slide">
+                                <a class="side-menu__item has-link" data-bs-toggle="slide" href="{% url 'exams' %}"><i
+                                        class="side-menu__icon fe fe-bookmark"></i><span
+                                        class="side-menu__label">Exams</span></a>
+                            </li>
+                             <li class="slide">
+                                <a class="side-menu__item has-link" data-bs-toggle="slide" href="{% url 'practices' %}"><i
+                                        class="side-menu__icon fe fe-bookmark"></i><span
+                                        class="side-menu__label">Practices</span></a>
+                            </li>
+                            <li class="slide">
+                                <a class="side-menu__item has-link" data-bs-toggle="slide" href="{% url 'doyouKnowList' %}"><i
+                                        class="side-menu__icon fe fe-bookmark"></i><span
+                                        class="side-menu__label">Do You Know ?</span></a>
+                            </li>
 							<li class="slide">
-                                <a class="side-menu__item has-link" data-bs-toggle="slide" href=""><i
+                                <a class="side-menu__item has-link" data-bs-toggle="slide" href="{% url 'UserList' %}"><i
                                         class="side-menu__icon fe fe-users"></i><span
                                         class="side-menu__label">Users</span></a>
                             </li>

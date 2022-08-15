@@ -60,6 +60,8 @@
                                                         <th>Answer</th>
                                                          <th>Status</th>
                                                          <th>Verification</th>
+                                                        <th>Current Affairs</th>
+                                                        <th>Current Affair Date</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -84,10 +86,10 @@
                 <div class="modal-body">
 
                     <ul class="list-group">
-                                                <li  class="listorder">{{ ques.option1 }}</li>
-                                                <li class="listorder">{{ ques.option2 }}</li>
-                                                <li class="listorder">{{ ques.option3 }}</li>
-                                                <li class="listorder">{{ ques.option4 }}</li>
+                                                <li {% if ques.answer == '1' %} style="color:#fff;background-color: green;" {% endif %}  class="listorder">{{ ques.option1 }}</li>
+                                                <li {% if ques.answer == '2' %} style="color:#fff;background-color: green;" {% endif %}  class="listorder">{{ ques.option2 }}</li>
+                                                <li {% if ques.answer == '3' %}  style="color:#fff;background-color: green;" {% endif %}  class="listorder">{{ ques.option3 }}</li>
+                                                <li {% if ques.answer == '4' %}  style="color:#fff;background-color: green;" {% endif %}  class="listorder">{{ ques.option4 }}</li>
 
                                             </ul>
                 </div>
@@ -112,6 +114,8 @@
                                                             {% endif %}</td>
                                                         <td>{% if ques.status == True %} Active {% else %} Not Active {% endif %}</td>
                                                          <td>{% if ques.verification == True %} Verified {% else %} Need To Verify {% endif %}</td>
+                                                         <td>{{ ques.current_affairs }}</td>
+                                                         <td>{{ ques.current_affairs_date }}</td>
 														<td>
 
 														<a href="{% url 'Question_Edit' ques.chapter_id ques.id %}" class="btn btn-success btn-sm" type="submit"><i class="fe fe-edit"></i></a>

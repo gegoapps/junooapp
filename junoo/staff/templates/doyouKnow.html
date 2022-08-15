@@ -1,0 +1,113 @@
+{% extends 'main.html' %}
+{% block content %}
+            <!--app-content open-->
+            <div class="main-content app-content mt-0">
+                <div class="side-app">
+
+                    <!-- CONTAINER -->
+                    <div class="main-container container-fluid">
+
+                        <!-- PAGE-HEADER -->
+                        <div class="page-header">
+
+							<div>
+							<h1 class="page-title">Do You Know ?</h1>
+
+                            </div>
+
+
+                        </div>
+
+                        <!-- PAGE-HEADER END -->
+
+                        <!-- Row -->
+                        <div class="row row-sm">
+
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+
+                                <div class="card">
+                                    <div class="card-header d-flex-custom">
+                                        <h3 class="card-title">Do You Know</h3>
+										<div class="col-md-3 mb-0">
+
+                                                    <input type="text" class="form-control" id="name2" placeholder="Search">
+
+                                            </div>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="table-responsive">
+                                            <table class="table border text-nowrap text-md-nowrap table-hover mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>SL No</th>
+                                                        <th>Title</th>
+                                                        <th>Details</th>
+
+                                                        <th>Image</th>
+                                                         <th>Category</th>
+                                                         <th>Sub Category</th>
+                                                       <th>Status</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% if res %}
+                                                {% for user in res %}
+                                                    <tr>
+                                                        <td>{{ forloop.counter }}</td>
+                                                        <td>{{ user.title }}</td>
+                                                         <td>{{ user.details }} </td>
+                                                         <td><img src="{{ user.img }}" ></td>
+                                                         <td>{{ user.junoocategory.title }}</td>
+                                                         <td>{{ user.junoosubcategory.title }}</td>
+                                                         <td>{% if user.status == True %}Active{% endif %} Not Active</td>
+
+                                                    </tr>
+                                                {% endfor %}
+{% endif %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!-- End Row -->
+                        </div>
+                        <!-- End Row -->
+                    </div>
+                    <!-- CONTAINER CLOSED -->
+
+                </div>
+            </div>
+            <!--app-content closed-->
+		<!-- Select2 modal -->
+
+    <!-- End Select2 modal -->
+
+
+	 <!-- Select2 modal -->
+    <div class="modal fade" id="delete">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Delete</h6>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Are You Sure Do You Want To Delete ?</h6>
+
+
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn ripple btn-success" >Yes</a>
+                    <a href="#" class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+   {% endblock %}

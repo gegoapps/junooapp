@@ -85,7 +85,24 @@
                                                    </select>
                                                 </div>
                                             </div>
+                                            <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Current Affair  </label>
+                                                   <select name="current_affair" required class="form-control">
 
+                                                       <option value="0" {% if questiondata  %} {% if questiondata.current_affairs == False %} selected {% endif %} {% endif %}>No</option>
+                                                        <option value="1" {% if questiondata  %} {% if questiondata.current_affairs == True %} selected {% endif %} {% endif %}>Yes</option>
+
+
+                                                   </select>
+                                                </div>
+                                            </div>
+ <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Current Affair Date</label>
+                                                 <input name="cf_date" type="date" value="{% if questiondata %}{{ questiondata.current_affairs_date }}{% endif %}" class="form-control">
+                                                </div>
+                                            </div>
 
 
                                     </div>

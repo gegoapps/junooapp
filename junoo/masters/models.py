@@ -15,3 +15,13 @@ class junoosubcategory(models.Model):
     status = models.BooleanField(default=False, null=True, blank=True)
     def __str__(self):
         return self.title
+
+class doyouknow(models.Model):
+    title = models.CharField(max_length=200, null=True, blank=True)
+    details = models.CharField(max_length=900, null=True, blank=True)
+    junoocategory = models.ForeignKey(junoocategory, default=None, on_delete=models.CASCADE, null=True, blank=True)
+    junoosubcategory = models.ForeignKey(junoosubcategory, default=None, on_delete=models.CASCADE, null=True, blank=True)
+    status = models.BooleanField(default=False, null=True, blank=True)
+    img = models.ImageField(upload_to='doyouknow', null=True, blank=True)
+    def __str__(self):
+        return self.title
