@@ -25,5 +25,7 @@ urlpatterns = [
     path('mocktests', views.mocktests, name="mocktests"),
     path('exams', views.exams, name="exams"),
     path('practices', views.practices, name="practices"),
+    path('quiz_questions_list/<str:pk>', views.quiz_questions_list, name="quiz_questions_list"),
+    path('create_quiz', views.create_quiz, name="create_quiz"),
 
 ]

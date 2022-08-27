@@ -15,6 +15,8 @@ from appapi.models import Customer
 
 from masters.models import doyouknow
 
+from quizes.models import quize
+
 
 def login(request):
     username = request.session.get('username')
@@ -28,7 +30,7 @@ def login(request):
 
             if cus :
                 user = authenticate(request,username=username,password=password)
-                print(user)
+
                 if user is not None:
                     auth_login(request, user)
                     request.session['username']=user.username
@@ -228,7 +230,9 @@ def logout_view(request):
     return  redirect("login")
 
 def quizList(request):
-    return  HttpResponse("Coming Soon")
+    res = quize.objects.all()
+
+    return  render(request,'quize_list.html',{'res':res})
 
 def mocktests(request):
     return  HttpResponse("Coming Soon")
@@ -237,4 +241,11 @@ def exams(request):
     return  HttpResponse("Coming Soon")
 
 def practices(request):
+    return  HttpResponse("Coming Soon")
+
+def quiz_questions_list(request,pk):
+
+    return  HttpResponse("dd")
+
+def create_quiz(request):
     return  HttpResponse("Coming Soon")

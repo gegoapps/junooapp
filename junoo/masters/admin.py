@@ -30,3 +30,21 @@ class AddClassesdoyouknow(admin.ModelAdmin):
         return format_html(f'<img src="/media/{obj.img}" style="height:100px;width:100px" />')
 
 admin.site.register(doyouknow,AddClassesdoyouknow)
+
+
+class AddClassesappopen_data(admin.ModelAdmin):
+    # exclude = ('is_deleted',)
+    list_display = ('title','details')
+    list_filter = ('title',)
+
+admin.site.register(appopen_data,AddClassesappopen_data)
+
+class AddClassesslider(admin.ModelAdmin):
+    # exclude = ('is_deleted',)
+    list_display = ('junoocategory','junoosubcategory','status','photo_tag')
+    list_filter = ('status',)
+
+    def photo_tag(self,obj):
+        return format_html(f'<img src="/media/{obj.img}" style="height:100px;width:100px" />')
+
+admin.site.register(slider,AddClassesslider)
