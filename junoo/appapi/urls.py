@@ -10,8 +10,8 @@ from .views import *
 
 urlpatterns = [
     path('JunooCats', JunooCats.as_view()),
-    path('GetPhoneNumber', GetPhoneNumber.as_view()),
     path('GetOtp', GetOtp.as_view()),
+    path('VerifyOtp', VerifyOtp.as_view()),
     path('RegisterUser', RegisterUser.as_view()),
     path('HomePage', HomePage.as_view()),
     path('doyouknow', doyouknowdata.as_view()),

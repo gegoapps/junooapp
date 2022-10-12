@@ -26,13 +26,13 @@ from masters.models import *
 from questions.models import subject
 
 
-class GetPhoneNumber(APIView):
+class GetOtp(APIView):
     def post(self,request):
         code=request.data['code']
         mobile = request.data['mobile']
-        return response(False, code, "")
+        return response(True, code+mobile, None)
 
-class GetOtp(APIView):
+class VerifyOtp(APIView):
     def post(self, request):
         code = request.data['code']
         mobile = request.data['mobile']
@@ -57,7 +57,28 @@ class GetOtp(APIView):
                         refresh['customer'] = cus.id
                         refresh['junoocategory_id'] = cus.junoocategory.id
                         refresh['junoosubcategory_id'] = cus.junoosubcategory.id
-                        resdata = { 'already_user':True,'refresh': str(refresh), 'access': str(refresh.access_token)}
+                        junnocatsdata = junoocategory.objects.filter(status=True)
+                        if junnocatsdata is not None:
+                            resd = []
+                            for jc in junnocatsdata:
+                                subres = []
+                                if jc.get_junnosubcats is not None:
+                                    for sjc in jc.get_junnosubcats:
+                                        subtemps = {
+                                            "junoosubcatid": sjc.id,
+                                            "junoosubcattitle": sjc.title,
+                                        }
+                                        subres.append(subtemps)
+
+                                tempdata = {
+                                    "junoocatid": jc.id,
+                                    "title": jc.title,
+                                    "subcats": subres
+                                }
+                                resd.append(tempdata)
+                        else:
+                            resd= None
+                        resdata = { 'already_user':True,'junoocats':resd,'refresh': str(refresh), 'access': str(refresh.access_token)}
                         message="success"
                     else:
                         status = False
@@ -105,7 +126,28 @@ class RegisterUser(APIView):
                 refresh['customer'] = cus.id
                 refresh['junoocategory_id'] = request.data['junoocategory_id']
                 refresh['junoosubcategory_id'] = request.data['junoosubcategory_id']
-                res = {'already_user':True,'refresh': str(refresh), 'access': str(refresh.access_token)}
+                junnocatsdata = junoocategory.objects.filter(status=True)
+                if junnocatsdata is not None:
+                    resd = []
+                    for jc in junnocatsdata:
+                        subres = []
+                        if jc.get_junnosubcats is not None:
+                            for sjc in jc.get_junnosubcats:
+                                subtemps = {
+                                    "junoosubcatid": sjc.id,
+                                    "junoosubcattitle": sjc.title,
+                                }
+                                subres.append(subtemps)
+
+                        tempdata = {
+                            "junoocatid": jc.id,
+                            "title": jc.title,
+                            "subcats": subres
+                        }
+                        resd.append(tempdata)
+                else:
+                    resd = None
+                res = {'already_user':True,'junoocats':resd,'refresh': str(refresh), 'access': str(refresh.access_token)}
                 return response(True, "Success", res)
 
 
