@@ -23,6 +23,7 @@ class doyouknow(models.Model):
     junoosubcategory = models.ForeignKey(junoosubcategory, default=None, on_delete=models.CASCADE, null=True, blank=True)
     status = models.BooleanField(default=False, null=True, blank=True)
     img = models.ImageField(upload_to='doyouknow', null=True, blank=True)
+    thumb = models.ImageField(upload_to='doyouknow_thumb', null=True, blank=True)
     def __str__(self):
         return self.title
 

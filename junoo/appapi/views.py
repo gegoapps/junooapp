@@ -40,6 +40,27 @@ class VerifyOtp(APIView):
 
         res=True
         if res == True:
+            junnocatsdata = junoocategory.objects.filter(status=True)
+            if junnocatsdata is not None:
+                resd = []
+                for jc in junnocatsdata:
+                    subres = []
+                    if jc.get_junnosubcats is not None:
+                        for sjc in jc.get_junnosubcats:
+                            subtemps = {
+                                "junoosubcatid": sjc.id,
+                                "junoosubcattitle": sjc.title,
+                            }
+                            subres.append(subtemps)
+
+                    tempdata = {
+                        "junoocatid": jc.id,
+                        "title": jc.title,
+                        "subcats": subres
+                    }
+                    resd.append(tempdata)
+            else:
+                resd = None
             status = True
             try:
                 user = User.objects.get(username=mobile)
@@ -57,37 +78,17 @@ class VerifyOtp(APIView):
                         refresh['customer'] = cus.id
                         refresh['junoocategory_id'] = cus.junoocategory.id
                         refresh['junoosubcategory_id'] = cus.junoosubcategory.id
-                        junnocatsdata = junoocategory.objects.filter(status=True)
-                        if junnocatsdata is not None:
-                            resd = []
-                            for jc in junnocatsdata:
-                                subres = []
-                                if jc.get_junnosubcats is not None:
-                                    for sjc in jc.get_junnosubcats:
-                                        subtemps = {
-                                            "junoosubcatid": sjc.id,
-                                            "junoosubcattitle": sjc.title,
-                                        }
-                                        subres.append(subtemps)
 
-                                tempdata = {
-                                    "junoocatid": jc.id,
-                                    "title": jc.title,
-                                    "subcats": subres
-                                }
-                                resd.append(tempdata)
-                        else:
-                            resd= None
                         resdata = { 'already_user':True,'junoocats':resd,'refresh': str(refresh), 'access': str(refresh.access_token)}
                         message="success"
                     else:
-                        status = False
-                        resdata = { 'already_user':False }
+                        status = True
+                        resdata = { 'already_user':False,'junoocats':resd,}
                         message = "Data Not Found"
 
             else:
                 status = False
-                resdata = {'already_user':False}
+                resdata = {'already_user':False,'junoocats':resd,}
                 message = "Data Not Found"
         else:
             status = False
@@ -108,8 +109,8 @@ class RegisterUser(APIView):
                 return response(True, "number already used", "")
             else:
                 mobile = serializer.data['mobile']
+                email = request.data['email']
                 country_code = serializer.data['country_code']
-
                 a = User.objects.create(username=request.data['mobile'])
                 a.save()
                 created_date = date.today()
@@ -118,7 +119,7 @@ class RegisterUser(APIView):
                 junoocategory_id=request.data['junoocategory_id']
                 junoosubcategory_id=request.data['junoosubcategory_id']
 
-                c = Customer(user=a, mobile=mobile, status=True,country_code=country_code,date=created_date,name=name,junoocategory_id=junoocategory_id,junoosubcategory_id=junoosubcategory_id,)
+                c = Customer(user_id=a.id, email=email,mobile=mobile, status=True,country_code=country_code,date=created_date,name=name,junoocategory_id=junoocategory_id,junoosubcategory_id=junoosubcategory_id,)
                 c.save()
                 refresh = RefreshToken.for_user(a)
                 refresh['phonenumber'] = a.username
@@ -222,7 +223,8 @@ class doyouknowdata(APIView):
                     "id":dd.id,
                     "title":dd.title,
                     "details":dd.details,
-                    "img":dd.img.url
+                    "img":dd.img.url,
+                    "thumb": dd.thumb.url
                 }
                 data.append(temda)
         else:
@@ -233,6 +235,7 @@ class  HomePage(APIView):
 
     def get(self, request):
         token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+
         decoded = jwt.decode(token, options={"verify_signature": False})  # works in PyJWT >= v2.0
         customer_id = decoded['customer']
         junoocategory_id = decoded['junoocategory_id']
@@ -240,11 +243,17 @@ class  HomePage(APIView):
         if customer_id :
                 userdtd = Customer.objects.get(id=customer_id)
                 user_info={
-                    "username":userdtd.name,
-                    "mobile": userdtd.mobile,
+                    "name":userdtd.name,
+                    "phoneNumber": userdtd.mobile,
                     "email": userdtd.email,
                     "country_code": userdtd.country_code,
                     "date_created": userdtd.date,
+                    "image":"",
+                    "level":"level",
+                    "badge":"badge",
+                    "achievedPoints":100,
+                    "blockedUser":False,
+                    "blackedReason":""
                 }
                 welcomedata = appopen_data.objects.all()
                 sliders = slider.objects.filter(status=True,junoocategory_id=junoocategory_id,junoosubcategory_id=junoosubcategory_id)
@@ -253,7 +262,11 @@ class  HomePage(APIView):
                     for sd in sliders:
                         temp={
                             "slider_id":sd.id,
-                            "slider_url": sd.img.url,
+                            "image": sd.img.url,
+                            "screen":"exam",
+                            "args":None,
+                            "link":None
+
 
                         }
                         sliderdata.append(temp)
@@ -267,12 +280,17 @@ class  HomePage(APIView):
                     welcometitle="Jonooo!"
                     welcome_note="Junooo "
 
+                welcomeNote={
+                    "title":welcometitle+userdtd.name,
+                    "desc":welcome_note
+                }
+
+
                 data = {
-                    "welcome_title":welcometitle,
-                    "welcome_note": welcome_note,
-                    "gems_count": 1001,
+                    "welcomeNote":welcomeNote,
+
                     "slider":sliderdata,
-                    "user_info":user_info,
+                    "user":user_info,
                 }
         else:
             data = None
