@@ -18,13 +18,17 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf import settings
+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 admin.site.site_header = settings.ADMIN_SITE_HEADER
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('masters/', include('masters.urls')),
+    path('userapp/', include('userapp.urls')),
     path('appapi/', include('appapi.urls')),
     path('questions/', include('questions.urls')),
     path('quizes/', include('quizes.urls')),
     path('staff/', include('staff.urls')),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

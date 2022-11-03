@@ -15,6 +15,8 @@ urlpatterns = [
     path('RegisterUser', RegisterUser.as_view()),
     path('HomePage', HomePage.as_view()),
     path('doyouknow', doyouknowdata.as_view()),
+    path('MainLeaderBoard', MainLeaderBoard.as_view()),
+    path('SelectedExams', SelectedExamsHomePage.as_view()),
     path('question_subject_lists', question_subject_lists.as_view()),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

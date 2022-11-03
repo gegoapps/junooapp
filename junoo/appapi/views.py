@@ -87,7 +87,7 @@ class VerifyOtp(APIView):
                         message = "Data Not Found"
 
             else:
-                status = False
+                status = True
                 resdata = {'already_user':False,'junoocats':resd,}
                 message = "Data Not Found"
         else:
@@ -106,7 +106,7 @@ class RegisterUser(APIView):
             except:
                 user = None
             if user is not None:
-                return response(True, "number already used", "")
+                return response(False, "number already used", None)
             else:
                 mobile = serializer.data['mobile']
                 email = request.data['email']
@@ -256,23 +256,25 @@ class  HomePage(APIView):
                     "blackedReason":""
                 }
                 welcomedata = appopen_data.objects.all()
-                sliders = slider.objects.filter(status=True,junoocategory_id=junoocategory_id,junoosubcategory_id=junoosubcategory_id)
-                if sliders is not None:
-                    sliderdata = []
-                    for sd in sliders:
-                        temp={
-                            "slider_id":sd.id,
-                            "image": sd.img.url,
-                            "screen":"exam",
-                            "args":None,
-                            "link":None
-
-
+                sliderlist = slider.objects.filter(status=True,)
+                if sliderlist is not None:
+                    sliderdata=[]
+                    for si in sliderlist:
+                        temoslider={
+                            "slider_id": si.id,
+                            "image": si.img.url,
+                            "screen": si.screen,
+                            "args": {
+                                "screen_id":si.appscreen_id,
+                                "title": si.title,
+                            },
+                            "link": si.extra_link
                         }
-                        sliderdata.append(temp)
-
+                        sliderdata.append(temoslider)
                 else:
-                    sliderdata = []
+                    sliderdata=[]
+
+
                 if welcomedata:
                     welcometitle=welcomedata[0].title
                     welcome_note = welcomedata[0].details
@@ -285,10 +287,13 @@ class  HomePage(APIView):
                     "desc":welcome_note
                 }
 
-
+                discoverApp = {
+                    "image": "https://user-images.githubusercontent.com/105601050/199044670-249db792-b3dc-4d52-97b2-2e7d3a2b5fcb.png",
+                    "link": "http://junooapp.in/"
+                }
                 data = {
                     "welcomeNote":welcomeNote,
-
+                    "discoverApp": discoverApp,
                     "slider":sliderdata,
                     "user":user_info,
                 }
@@ -296,4 +301,44 @@ class  HomePage(APIView):
             data = None
 
 
+        return response(True, "success", data)
+
+class MainLeaderBoard(APIView):
+    def get(self, request):
+        token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+
+        decoded = jwt.decode(token, options={"verify_signature": False})  # works in PyJWT >= v2.0
+        customer_id = decoded['customer']
+        junoocategory_id = decoded['junoocategory_id']
+        junoosubcategory_id = decoded['junoosubcategory_id']
+        data=[]
+
+        for i in range(100):
+            temp = {
+                "userId": "1001",
+                "userName": "demo",
+                "userImage": "/media/slider/ms-dhoni-1200.jpeg",
+                "point": i
+            }
+            data.append(temp)
+        return response(True, "success", data)
+
+class SelectedExamsHomePage(APIView):
+    def get(self, request):
+        token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+
+        decoded = jwt.decode(token, options={"verify_signature": False})  # works in PyJWT >= v2.0
+        customer_id = decoded['customer']
+        junoocategory_id = decoded['junoocategory_id']
+        junoosubcategory_id = decoded['junoosubcategory_id']
+        data = []
+        temp = {
+            "id": "1001",
+            "title": "quize",
+            "desc": "test data",
+            "image": "/media/doyouknow/Group_11309_copy_GfdrmMh.png",
+            "sectionfinder":"",
+            "selectedexam_tbl_id":123
+        }
+        data.append(temp)
         return response(True, "success", data)

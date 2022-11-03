@@ -41,7 +41,7 @@ admin.site.register(appopen_data,AddClassesappopen_data)
 
 class AddClassesslider(admin.ModelAdmin):
     # exclude = ('is_deleted',)
-    list_display = ('junoocategory','junoosubcategory','status','photo_tag')
+    list_display = ('junoocategory','junoosubcategory','status','photo_tag','screen','title','appscreen_id')
     list_filter = ('status',)
 
     def photo_tag(self,obj):

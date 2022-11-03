@@ -58,7 +58,7 @@
                                                         <td>{{ forloop.counter }}</td>
                                                         <td>{{ user.title }}</td>
                                                          <td>{{ user.details }} </td>
-                                                         <td><img src="{{ user.img }}" ></td>
+                                                         <td><img src="{{ user.img.url }}" ></td>
                                                          <td>{{ user.junoocategory.title }}</td>
                                                          <td>{{ user.junoosubcategory.title }}</td>
                                                          <td>{% if user.status == True %}Active{% endif %} Not Active</td>

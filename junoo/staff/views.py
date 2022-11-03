@@ -27,7 +27,7 @@ def login(request):
             username = request.POST.get('username')
             password = request.POST.get('password')
             cus = Staff.objects.filter(username=username,password=password)
-
+            print(cus)
             if cus :
                 user = authenticate(request,username=username,password=password)
 

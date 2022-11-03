@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="eng">
+{% load static %}
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="x-ua-compatible" content="ie=edge">
+   <title>JUNOO </title>
+   <meta name="description" content="">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+   <!-- Place favicon.ico in the root directory -->
+   <!-- <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo/favicon.png"> -->
+
+   <!-- CSS here -->
+   <link rel="stylesheet" href="{% static 'userapp/assets/css/bootstrap.min.css' %}">
+   <link rel="stylesheet" href="{% static 'userapp/assets/css/animate.css' %}">
+   <link rel="stylesheet" href="{% static 'userapp/assets/css/custom-animation.css' %}">
+   <link rel="stylesheet" href="{% static 'userapp/assets/css/swiper-bundle.css' %}">
+   <link rel="stylesheet" href="{% static 'userapp/assets/css/slick.css' %}">
+   <link rel="stylesheet" href="{% static 'userapp/assets/css/flaticon.css' %}">
+   <link rel="stylesheet" href="{% static 'userapp/assets/css/meanmenu.css' %}">
+   <link rel="stylesheet" href="{% static 'userapp/assets/css/font-awesome-pro.css' %}">
+   <link rel="stylesheet" href="{% static 'userapp/assets/css/magnific-popup.css' %}">
+   <link rel="stylesheet" href="{% static 'userapp/assets/css/spacing.css' %}">
+   <link rel="stylesheet" href="{% static 'userapp/assets/css/style.css' %}">
+</head>
+
+<body>
+
+   <!-- tp-header-area-start -->
+   <header class="d-none d-lg-block">
+      <div id="header-sticky" class="tp-header-area-two header-transparent header-space-three pl-115 pr-115">
+         <div class="container-fluid">
+            <div class="row align-items-center">
+               <div class="col-xxl-3 col-xl-3 col-lg-3">
+                  <div class="tp-logo text-start">
+                     <a href="index.html"><img src="{% static 'userapp/assets/juno-images/logo.svg' %}" alt=""></a>
+                  </div>
+               </div>
+               <div class="col-xxl-6 col-xl-6 col-lg-6">
+                  <div class="tp-main-menu text-center">
+                     <nav id="mobile-menu">
+                        <ul>
+
+                           <li><a href="#">Community</a></li>
+                           <li><a href="#">Products</a></li>
+                           <li><a href="#">Resources</a></li>
+                           <li><a href="#">About Us</a></li>
+                        </ul>
+                     </nav>
+                  </div>
+               </div>
+               <div class="col-xxl-3 col-xl-3 col-lg-3">
+                  <div class="tp-header-button text-end">
+                     <a class="tp-btn" href="">Download Junoo</a>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </header>
+   <!-- tp-header-area-end -->
+
+
+   <!-- tp-md-menu-start -->
+   <div id="header-sticky-mobile" class="tp-md-header-area header-transparent d-lg-none pt-30 ">
+      <div class="container-fluid">
+         <div class="row">
+            <div class="col-md-6 col-6">
+               <div class="tp-logo">
+                 <a href="index.html"><img src="{% static 'userapp/assets/juno-images/logo.svg' %}" alt=""></a>
+               </div>
+            </div>
+            <div class="col-md-6 col-6">
+               <div class="tp-header-right z-index-1 d-flex align-items-center justify-content-end">
+                  <a class="tp-btn d-none d-md-block" href="#">Download Junoo</a>
+                  <button class="tp-menu-bar"><i class="fal fa-bars"></i></button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- tp-md-menu-end -->
+
+   <div class="tp-offcanvas-area">
+      <div class="tpoffcanvas">
+         <div class="tpoffcanvas__logo">
+            <a href="index.html">
+               <img src="{% static 'userapp/assets/juno-images/logo.svg' %}" alt="">
+            </a>
+         </div>
+         <div class="tpoffcanvas__close-btn">
+            <a class="close-btn" href="javascript:void(0)"><i class="fal fa-times-hexagon"></i></a>
+         </div>
+         <div class="tpoffcanvas__content ">
+            <p>We deploy world-class<br>  Creative on demand.</p>
+         </div>
+         <div class="mobile-menu">
+
+         </div>
+
+      </div>
+   </div>
+
+   <div class="body-overlay"></div>
+ {% block content %}
+            {% endblock  %}
+
+
+   <!-- JS here -->
+   <script src="{% static 'userapp/assets/js/jquery.js' %}"></script>
+   <script src="{% static 'userapp/assets/js/waypoints.js' %}"></script>
+   <script src="{% static 'userapp/assets/js/bootstrap.bundle.min.js' %}"></script>
+   <script src="{% static 'userapp/assets/js/swiper-bundle.js' %}"></script>
+   <script src="{% static 'userapp/assets/js/slick.js' %}"></script>
+   <script src="{% static 'userapp/assets/js/magnific-popup.js' %}"></script>
+   <script src="{% static 'userapp/assets/js/counterup.js' %}"></script>
+   <script src="{% static 'userapp/assets/js/wow.js' %}"></script>
+   <script src="{% static 'userapp/assets/js/meanmenu.js' %}"></script>
+   <script src="{% static 'userapp/assets/js/isotope-pkgd.js' %}"></script>
+   <script src="{% static 'userapp/assets/js/imagesloaded-pkgd.js' %}"></script>
+   <script src="{% static 'userapp/assets/js/ajax-form.js' %}"></script>
+   <script src="{% static 'userapp/assets/js/main.js' %}"></script>
+</body>
+
+</html>

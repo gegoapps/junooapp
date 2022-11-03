@@ -38,4 +38,8 @@ class slider(models.Model):
     junoocategory = models.ForeignKey(junoocategory, default=None, on_delete=models.CASCADE, null=True, blank=True)
     junoosubcategory = models.ForeignKey(junoosubcategory, default=None, on_delete=models.CASCADE, null=True, blank=True)
     img = models.ImageField(upload_to='slider', null=True, blank=True)
+    screen = models.CharField(max_length=200, null=True, blank=True)
+    title = models.CharField(max_length=200, null=True, blank=True)
+    extra_link = models.CharField(max_length=200, null=True, blank=True)
+    appscreen_id = models.CharField(max_length=200, null=True, blank=True)
     status = models.BooleanField(default=False, null=True, blank=True)
