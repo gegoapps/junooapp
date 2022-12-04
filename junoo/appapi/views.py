@@ -23,7 +23,11 @@ from.serializers import *
 from . serializers import *
 from masters.models import *
 
-from questions.models import subject
+
+from questions.models import *
+
+from quizes.models import *
+
 
 
 class GetOtp(APIView):
@@ -181,6 +185,27 @@ class JunooCats(APIView):
         else:
             res = None
         return response(True, "success", res)
+class chapterListBySubject(APIView):
+    def post(self,request):
+        token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+        decoded = jwt.decode(token, options={"verify_signature": False})  # works in PyJWT >= v2.0
+
+
+        subjectid = request.data['subjectid']
+
+        chapterlist = chapter.objects.filter(status=True,subject_id=subjectid)
+
+        if chapterlist is not None:
+            chapterlistarr = []
+            for ch in chapterlist:
+                tempchtp = {
+                    "chapter_id": ch.id,
+                    "chapter_title": ch.title,
+                }
+                chapterlistarr.append(tempchtp)
+        else:
+           chapterlistarr=[]
+        return response(True, "success", chapterlistarr)
 class question_subject_lists(APIView):
     def get(self, request):
         token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
@@ -202,6 +227,7 @@ class question_subject_lists(APIView):
                 tesub={
                     "subject_id":sl.id,
                     "subject_title":sl.title,
+                    "chapter_count":100,
                     "subject_chapters":subject_chapters
                 }
                 subjectlistdata.append(tesub)
@@ -342,3 +368,238 @@ class SelectedExamsHomePage(APIView):
         }
         data.append(temp)
         return response(True, "success", data)
+class QAAQuations(APIView):
+    def post(self, request):
+        token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+
+        decoded = jwt.decode(token, options={"verify_signature": False})  # works in PyJWT >= v2.0
+        customer_id = decoded['customer']
+        junoocategory_id = decoded['junoocategory_id']
+        junoosubcategory_id = decoded['junoosubcategory_id']
+        subjectid = request.data['subjectid']
+        chapterid = request.data['chapterid']
+        questionlist = questions.objects.filter(junoocategory_id=junoocategory_id,junoosubcategory_id=junoosubcategory_id,subject_id =subjectid,chapter_id=chapterid,status=True,verification=True)
+
+        if questionlist is not None:
+            questionlistarr=[]
+            for i in questionlist:
+                options=[i.option1,i.option2,i.option3,i.option4]
+                temp={
+                    "question_id":i.id,
+                    "question":i.title,
+                    "options":options,
+                    "answer": int(i.answer),
+
+                }
+                questionlistarr.append(temp)
+        else:
+            questionlistarr=[]
+
+        return response(True, "success", questionlistarr)
+
+class QANDALog(APIView):
+    def post(self, request):
+        token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+
+        decoded = jwt.decode(token, options={"verify_signature": False})  # works in PyJWT >= v2.0
+        customer_id = decoded['customer']
+        rightanswer = request.data['rightanswer']
+        wronganswer = request.data['wronganswer']
+        skippedanswers = request.data['skippedanswers']
+        created_date = date.today()
+        a = qanda_attended_log(customer_id=customer_id,created_date=created_date,right_answr=rightanswer,wrong_answr=wronganswer,skiped_answr=skippedanswers)
+        a.save()
+        return response(True, "success", None)
+class QuizeList(APIView):
+    def get(self, request):
+        token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+
+        decoded = jwt.decode(token, options={"verify_signature": False})  # works in PyJWT >= v2.0
+        customer_id = decoded['customer']
+        junoocategory_id = decoded['junoocategory_id']
+        junoosubcategory_id = decoded['junoosubcategory_id']
+        quizelist = quize.objects.filter(junoocategory_id=junoocategory_id,junoosubcategory_id=junoosubcategory_id, status=True)
+        if quizelist is not None:
+            quizelistarr=[]
+            for i in quizelist:
+
+                temp={
+                    "quize_db_id":i.id,
+                    "quize_code":i.quize_id,
+                    "title":i.title,
+                    "win_price": i.win_price,
+                    "entry_fee": i.entry_fee,
+                    "no_of_questions":100,
+                    "quize_tag": i.quize_tag,
+                    "quize_emoji": i.quize_emojy,
+                    "quize_primary_color": i.quize_primary_color,
+                    "quize_secondary_color": i.quize_secondary_color,
+                    "quize_details": i.quize_details,
+
+
+
+
+                }
+                quizelistarr.append(temp)
+        else:
+            quizelistarr=[]
+        return response(True, "success", quizelistarr)
+
+class QuizeQuestions(APIView):
+    def post(self, request):
+        token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+
+        decoded = jwt.decode(token, options={"verify_signature": False})  # works in PyJWT >= v2.0
+        customer_id = decoded['customer']
+        junoocategory_id = decoded['junoocategory_id']
+        junoosubcategory_id = decoded['junoosubcategory_id']
+
+        quizeid = request.data['quizeid']
+        quizequestions = quize_questions.objects.filter(quize_id=quizeid)
+        if quizequestions :
+            questionlistarr=[]
+            for qq in quizequestions:
+                options = [qq.questions.option1, qq.questions.option2, qq.questions.option3, qq.questions.option4]
+                temp = {
+                    "question_id": qq.questions.id,
+                    "question": qq.questions.title,
+                    "options": options,
+                    "answer": int(qq.questions.answer),
+
+                }
+                questionlistarr.append(temp)
+
+            return response(True, "success", questionlistarr)
+        else:
+            return response(True, "Quize Questions are not updated . Try after some time", None)
+
+class quizeHistorySave(APIView):
+    def post(self, request):
+        token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+
+        decoded = jwt.decode(token, options={"verify_signature": False})  # works in PyJWT >= v2.0
+        customer_id = decoded['customer']
+        junoocategory_id = decoded['junoocategory_id']
+        junoosubcategory_id = decoded['junoosubcategory_id']
+        quizeid = request.data['quizeid']
+        randomid = random.randrange(10000, 10000000000)
+        total_questions=request.data['total_questions']
+        total_right_answers = request.data['total_right_answers']
+        total_wrong_answer = request.data['total_wrong_answer']
+        a=QuizeHistory(quize_id=quizeid,customer_id=customer_id,quize_attended_code=randomid,total_questions=total_questions,total_right_answers=total_right_answers,total_wrong_answer=total_wrong_answer)
+        a.save()
+        questiondata = request.data['questiondata']
+        for k in questiondata:
+            b=Quize_attended_questions(quize_id=quizeid,customer_id=customer_id,quize_attended_code=randomid,quizehistory_id=a.id,question_id=k['question'],right_wrong=k['right_wrong'],crt_option=k['crt_option'])
+            b.save()
+        is_passed = request.data['is_passed']
+        earnedpoint = request.data['earnedpoint']
+        if(is_passed==True):
+            cus = Customer.objects.get(id=customer_id)
+            if(cus.current_totalpoint == None):
+                ctpoint=0
+            else:
+                ctpoint = cus.current_totalpoint
+            totalpoin=int(ctpoint)+int(earnedpoint)
+            cus.current_totalpoint=totalpoin
+            cus.save()
+            created_date=date.today()
+            title="quize win prize"
+            c=PointHistory(customer_id=customer_id,created_date=created_date,created_point=earnedpoint,title=title,status=True)
+            c.save()
+        resd={
+            "history_id":a.id,
+            "history_code":randomid
+        }
+        return response(True, "Success", resd)
+
+# class QuizeHistoryDetailsSave(APIView):
+#     def post(self, request):
+#         token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+#
+#         decoded = jwt.decode(token, options={"verify_signature": False})  # works in PyJWT >= v2.0
+#         customer_id = decoded['customer']
+#         junoocategory_id = decoded['junoocategory_id']
+#         junoosubcategory_id = decoded['junoosubcategory_id']
+#         quizeid = request.data['quizeid']
+#         Historyid = request.data['historyid']
+#         historycode = request.data['historycode']
+#         questiondata= request.data['questiondata']
+#         for k in questiondata:
+#             a=Quize_attended_questions(quize_id=quizeid,customer_id=customer_id,quize_attended_code=historycode,quizehistory_id=Historyid,question_id=k['question'],right_wrong=k['right_wrong'],crt_option=k['crt_option'])
+#             a.save()
+#         return response(True, "success" , None)
+class ExamCategoryList(APIView):
+    def get(self, request):
+        token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+
+        decoded = jwt.decode(token, options={"verify_signature": False})  # works in PyJWT >= v2.0
+        customer_id = decoded['customer']
+        junoocategory_id = decoded['junoocategory_id']
+        junoosubcategory_id = decoded['junoosubcategory_id']
+        examcatlist = ExamsCategorys.objects.filter(junoocategory_id=junoocategory_id,junoosubcategory_id=junoosubcategory_id, status=True)
+        res=[]
+        if examcatlist is not None:
+            for i in examcatlist:
+                temp={
+                    "exam_categoryId":i.id,
+                    "exam_title": i.title,
+                    "exam_details": i.details,
+                }
+                res.append(temp)
+        return response(True, "success", res)
+class QuizeLandingPage(APIView):
+    def post(self, request):
+        token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+
+        decoded = jwt.decode(token, options={"verify_signature": False})  # works in PyJWT >= v2.0
+        customer_id = decoded['customer']
+        junoocategory_id = decoded['junoocategory_id']
+        junoosubcategory_id = decoded['junoosubcategory_id']
+        quizeid = request.data['quizeid']
+        quizelist = quize.objects.get(id=quizeid,status=True)
+        if quizelist is not None:
+            leaderboard=[]
+            for i in range(1, 11):
+                qq={
+                    "userId": "100"+str(i),
+                    "userName": "demo",
+                    "userImage": "/media/slider/ms-dhoni-1200.jpeg",
+                    "point": i
+                }
+                leaderboard.append(qq)
+            temp={
+                "quize_db_id": quizelist.id,
+                "quize_code": quizelist.quize_id,
+                "title": quizelist.title,
+                "win_price": quizelist.win_price,
+                "entry_fee": quizelist.entry_fee,
+                "tot_time": quizelist.quize_time,
+                "total_point":1234,
+                "total_questions": 1002,
+                "quize_tag": quizelist.quize_tag,
+                "quize_emoji": quizelist.quize_emojy,
+                "quize_primary_color": quizelist.quize_primary_color,
+                "quize_secondary_color": quizelist.quize_secondary_color,
+                "quize_details": quizelist.quize_details,
+
+                "quize_cutoffmark": quizelist.quize_cutoffmark,
+
+
+            }
+            res=[]
+            res={
+                "quizDetails":temp,
+                "leaderboard": leaderboard,
+                "total_points":12432
+
+            }
+
+
+
+        else:
+            res=[]
+        return response(True, "success", res)
+
+
+

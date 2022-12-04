@@ -12,3 +12,9 @@ class AddClassesquize_questions(admin.ModelAdmin):
     # exclude = ('is_deleted',)
     list_display = ('questions','quize',)
 admin.site.register(quize_questions,AddClassesquize_questions)
+
+
+class AddClassesExamsCategorys(admin.ModelAdmin):
+    # exclude = ('is_deleted',)
+    list_display = ('title','status','details','junoocategory','junoosubcategory')
+admin.site.register(ExamsCategorys,AddClassesExamsCategorys)

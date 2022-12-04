@@ -17,9 +17,15 @@ admin.site.register(junoosubcategory,AddClassesjunoosubcategory)
 
 class AddClassesCustomer(admin.ModelAdmin):
     # exclude = ('is_deleted',)
-    list_display = ('name','mobile','country_code','date','junoocategory','junoosubcategory')
+    list_display = ('name','mobile','country_code','date','junoocategory','junoosubcategory','current_totalpoint')
     list_filter = ('mobile','status')
 admin.site.register(Customer,AddClassesCustomer)
+
+class AddClassesPointHistory(admin.ModelAdmin):
+    # exclude = ('is_deleted',)
+    list_display = ('customer','created_date','created_point','title','status')
+    list_filter = ('customer','status')
+admin.site.register(PointHistory,AddClassesPointHistory)
 
 class AddClassesdoyouknow(admin.ModelAdmin):
     # exclude = ('is_deleted',)
@@ -48,3 +54,10 @@ class AddClassesslider(admin.ModelAdmin):
         return format_html(f'<img src="/media/{obj.img}" style="height:100px;width:100px" />')
 
 admin.site.register(slider,AddClassesslider)
+
+class Addqanda_attended_log(admin.ModelAdmin):
+    # exclude = ('is_deleted',)
+    list_display = ('customer','created_date','right_answr','wrong_answr','skiped_answr')
+
+
+admin.site.register(qanda_attended_log,Addqanda_attended_log)
