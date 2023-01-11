@@ -27,7 +27,7 @@ def login(request):
             username = request.POST.get('username')
             password = request.POST.get('password')
             cus = Staff.objects.filter(username=username,password=password)
-            print(cus)
+
             if cus :
                 user = authenticate(request,username=username,password=password)
 
@@ -248,4 +248,20 @@ def quiz_questions_list(request,pk):
     return  HttpResponse("dd")
 
 def create_quiz(request):
-    return  HttpResponse("Coming Soon")
+    if  request.user.is_authenticated:
+        cats = junoocategory.objects.all()
+        return  render(request,"create_quiz.html",{'res':cats})
+    else:
+        return redirect("login")
+
+
+def create_doyouknow(request):
+    if  request.user.is_authenticated:
+        cats = junoocategory.objects.all()
+        if request.method == 'POST':
+            return  HttpResponse('dd')
+        else:
+         return  render(request,"create_doyouknow.html",{'cats':cats})
+    else:
+        return redirect("login")
+

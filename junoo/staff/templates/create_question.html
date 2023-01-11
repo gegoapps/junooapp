@@ -41,7 +41,7 @@
                                             <div class="form-group col-md-12 mb-0">
                                                 <div class="form-group">
 												<label class="form-label">Question</label>
-                                                    <textarea name="title" class="form-control" placeholder="Add new Question" required >{% if questiondata  %}{{ questiondata.title }} {% endif %}</textarea>
+                                                    <textarea id="summernote" name="title" class="form-control" placeholder="Add new Question" required >{% if questiondata  %}{{ questiondata.title }} {% endif %}</textarea>
                                                 <input type="hidden"  name="chapterid" value="{{ chapterdata.id  }}">
                                                 </div>
                                             </div>

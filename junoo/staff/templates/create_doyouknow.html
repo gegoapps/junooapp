@@ -1,0 +1,114 @@
+{% extends 'main.html' %}
+{% block content %}
+
+      <!--app-content open-->
+            <div class="main-content app-content mt-0">
+                <div class="side-app">
+
+                    <!-- CONTAINER -->
+                    <div class="main-container container-fluid">
+
+                        <!-- PAGE-HEADER -->
+                        <div class="page-header">
+                            <h1 class="page-title">Add New Do You Know</h1>
+                            <div>
+
+                                <a class="btn btn-primary btn-block" href="{% url 'doyouKnowList' %}">
+								<i class="fe fe-eye me-1"></i> View All</a>
+
+                            </div>
+                        </div>
+                        <!-- PAGE-HEADER END -->
+<form method="post" >
+    {% csrf_token %}
+                        <!-- Row -->
+                        <div class="row row-sm">
+
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+
+                                 <div class="card">
+
+                            {% for message in messages %}
+                                                <p style="color:red">{{ message }}</p>
+                                                {% endfor %}
+                                    <div class="card-body">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Title</label>
+
+                                                    <input type="hidden" name="subid" value="{{ subcat.id }}">
+                                                    <input type="text" required class="form-control" id="title" name="title" placeholder="Title">
+                                                </div>
+                                            </div>
+
+
+                                             <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Details</label>
+
+
+                                                    <textarea required class="form-control" id="details" name="details" placeholder="Details"></textarea>
+                                                </div>
+                                            </div>
+
+                                             <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Main Category</label>
+
+                                                   <select class="form-control" name="cat" onchange="setsubcats(this.value)">
+                                                       <option>Select Any Option</option>
+                                                       {% for i in cats %}
+                                                        <option value="{{i.id}}">{{i.title}}</option>
+                                                       {% endfor %}
+                                                   </select>
+                                                </div>
+                                            </div>
+                                             <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Sub Category</label>
+                                                     <select class="form-control" name="cat">
+                                                      <option>Select Any Option</option>
+                                                       {% for i in cats %}
+                                                        <option value="{{i.id}}">{{i.title}}</option>
+                                                       {% endfor %}
+                                                   </select>
+                                                </div>
+                                            </div>
+                                              <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Main Image</label>
+                                                      <input type="file" class="form-control" name="mainimage">
+                                                </div>
+                                            </div>
+                                              <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Thumb</label>
+                                                     <input type="file" class="form-control" name="thumb">
+                                                </div>
+                                            </div>
+
+
+
+
+                                    </div>
+									 <div class="form-footer mt-2">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!-- End Row -->
+                        </div>
+                        </form>
+                        <!-- End Row -->
+                    </div>
+                    <!-- CONTAINER CLOSED -->
+
+                </div>
+            </div>
+            <!--app-content closed-->
+
+	{% endblock %}

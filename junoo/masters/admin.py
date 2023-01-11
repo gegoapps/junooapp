@@ -17,7 +17,7 @@ admin.site.register(junoosubcategory,AddClassesjunoosubcategory)
 
 class AddClassesCustomer(admin.ModelAdmin):
     # exclude = ('is_deleted',)
-    list_display = ('name','mobile','country_code','date','junoocategory','junoosubcategory','current_totalpoint')
+    list_display = ('img','name','mobile','country_code','date','junoocategory','junoosubcategory','current_totalpoint')
     list_filter = ('mobile','status')
 admin.site.register(Customer,AddClassesCustomer)
 
@@ -59,5 +59,37 @@ class Addqanda_attended_log(admin.ModelAdmin):
     # exclude = ('is_deleted',)
     list_display = ('customer','created_date','right_answr','wrong_answr','skiped_answr')
 
-
 admin.site.register(qanda_attended_log,Addqanda_attended_log)
+
+
+class AddQuizeHistory(admin.ModelAdmin):
+    # exclude = ('is_deleted',)
+    list_display = ('quize','created_date','quize_attended_code','customer','total_questions','total_right_answers','total_wrong_answer')
+
+
+admin.site.register(QuizeHistory,AddQuizeHistory)
+
+
+class AddQuize_attended_questions(admin.ModelAdmin):
+    # exclude = ('is_deleted',)
+    list_display = ('quize','quize_attended_code','customer','quizehistory','question','right_wrong','crt_option','selected_ans')
+
+admin.site.register(Quize_attended_questions,AddQuize_attended_questions)
+
+
+
+
+class AddExamHistory(admin.ModelAdmin):
+    # exclude = ('is_deleted',)
+    list_display = ('created_time','created_date','ExamList','exam_attended_code','customer','total_questions','total_right_answers','total_wrong_answer','total_mark')
+
+
+admin.site.register(ExamHistory,AddExamHistory)
+
+
+class AddExam_attended_questions(admin.ModelAdmin):
+    # exclude = ('is_deleted',)
+    list_display = ('ExamList','exam_attended_code','customer','ExamHistory','question','right_wrong','crt_option','selected_ans')
+
+admin.site.register(Exam_attended_questions,AddExam_attended_questions)
+

@@ -27,5 +27,7 @@ urlpatterns = [
     path('practices', views.practices, name="practices"),
     path('quiz_questions_list/<str:pk>', views.quiz_questions_list, name="quiz_questions_list"),
     path('create_quiz', views.create_quiz, name="create_quiz"),
+    path('create_doyouknow', views.create_doyouknow, name="create_doyouknow"),
+
 
 ]

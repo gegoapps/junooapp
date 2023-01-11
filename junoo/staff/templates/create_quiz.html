@@ -1,0 +1,167 @@
+{% extends 'main.html' %}
+{% block content %}
+
+      <!--app-content open-->
+            <div class="main-content app-content mt-0">
+                <div class="side-app">
+
+                    <!-- CONTAINER -->
+                    <div class="main-container container-fluid">
+
+                        <!-- PAGE-HEADER -->
+                        <div class="page-header">
+                            <h1 class="page-title">Add New Quiz</h1>
+                            <div>
+
+                                <a class="btn btn-primary btn-block" href="{% url 'doyouKnowList' %}">
+								<i class="fe fe-eye me-1"></i> View All</a>
+
+                            </div>
+                        </div>
+                        <!-- PAGE-HEADER END -->
+<form method="post" >
+    {% csrf_token %}
+                        <!-- Row -->
+                        <div class="row row-sm">
+
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+
+                                 <div class="card">
+
+                            {% for message in messages %}
+                                                <p style="color:red">{{ message }}</p>
+                                                {% endfor %}
+                                    <div class="card-body">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Title</label>
+
+                                                    <input type="hidden" name="subid" value="{{ subcat.id }}">
+                                                    <input type="text" required class="form-control" id="title" name="title" placeholder="Title">
+                                                </div>
+                                            </div>
+
+                                             <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Quiz Code</label>
+
+
+                                                    <input type="text" required class="form-control" id="code" name="code" placeholder="Code">
+                                                </div>
+                                            </div>
+                                             <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Quiz Time</label>
+
+
+                                                    <input type="time" required class="form-control" id="time" name="time" placeholder="Time">
+                                                </div>
+                                            </div>
+                                             <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Tag</label>
+
+
+                                                    <input type="text" required class="form-control" id="tag" name="tag" placeholder="Tag">
+                                                </div>
+                                            </div>
+                                             <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Emojy</label>
+
+
+                                                    <input type="text" required class="form-control" id="emojy" name="emojy" placeholder="Emojy">
+                                                </div>
+                                            </div>
+                                             <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Primary Color</label>
+
+
+                                                    <input type="color" value="#ff0000" required class="form-control" id="pcolor" name="pcolor" placeholder="color">
+                                                </div>
+                                            </div>
+                                             <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Secondary Color</label>
+
+
+                                                    <input type="color" value="#ff0000" required class="form-control" id="scolor" name="scolor" placeholder="color">
+                                                </div>
+                                            </div>
+                                             <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Details</label>
+
+
+                                                    <textarea required class="form-control" id="details" name="details" placeholder="Details"></textarea>
+                                                </div>
+                                            </div>
+                                             <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Cutoff Mark</label>
+
+
+                                                    <input type="number" required class="form-control" id="cutoff" name="cutoff" placeholder="Cutoff mark">
+                                                </div>
+                                            </div>
+                                             <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Win Price</label>
+
+
+                                                    <input type="number" required class="form-control" id="winprice" name="winprice" placeholder="win price">
+                                                </div>
+                                            </div>
+                                             <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Entry Fee</label>
+
+
+                                                    <input type="number" required class="form-control" id="entry" name="entry" placeholder="entry fee">
+                                                </div>
+                                            </div>
+
+                                             <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Main Category</label>
+
+                                                   <select class="form-control" name="cat">
+                                                       <option>Select Any Option</option>
+                                                   </select>
+                                                </div>
+                                            </div>
+                                             <div class="form-group col-md-6 mb-0">
+                                                <div class="form-group">
+												<label class="form-label">Sub Category</label>
+                                                     <select class="form-control" name="cat">
+                                                       <option>Select Any Option</option>
+                                                   </select>
+                                                </div>
+                                            </div>
+
+
+
+
+                                    </div>
+									 <div class="form-footer mt-2">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!-- End Row -->
+                        </div>
+                        </form>
+                        <!-- End Row -->
+                    </div>
+                    <!-- CONTAINER CLOSED -->
+
+                </div>
+            </div>
+            <!--app-content closed-->
+
+	{% endblock %}
